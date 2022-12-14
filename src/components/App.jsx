@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { TailSpin } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,7 +7,8 @@ import { SearchBar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 import { Button } from './Button/Button';
-import { AppStyled } from './App.styled'
+import { AppStyled } from './App.styled';
+import { ImgSkeleton } from 'components/ImgSkeleton/ImgSkeleton';
 
 
 export class App extends Component {
@@ -81,16 +81,7 @@ export class App extends Component {
         )}
         {isLoading && (
           <AppStyled display="flex" marginTop="20px" justifyContent="center">
-            <TailSpin
-              height="60"
-              width="60"
-              color="#3f51b5"
-              ariaLabel="tail-spin-loading"
-              radius="1"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-            />
+            <ImgSkeleton/>
           </AppStyled>
         )}
         {images.length > 0 && !isLoading && !isMoreBtnHide && (

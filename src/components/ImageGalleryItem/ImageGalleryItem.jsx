@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-// import * as basicLightbox from 'basiclightbox'
 import { Modal } from 'components/Modal/Modal';
 import {
   StyledGalleryImage,
@@ -19,11 +18,11 @@ export class ImageGalleryItem extends Component {
     }));
   };
 
-  handleBackdropClick = evt => {
-    if (evt.currentTarget === evt.target) {
-      this.handleToggleModal();
-    }
-  };
+  // handleBackdropClick = evt => {
+  //   if (evt.currentTarget === evt.target) {
+  //     this.handleToggleModal();
+  //   }
+  // };
 
   render() {
     const { isModalOpen } = this.state;
@@ -39,10 +38,11 @@ export class ImageGalleryItem extends Component {
           </Modal>
         )}
       </>
-    );
+    ) ;
   }
 }
 
 ImageGalleryItem.propTypes = {
   image: PropTypes.object.isRequired,
 };
+
