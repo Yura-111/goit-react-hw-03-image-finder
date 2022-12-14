@@ -18,12 +18,6 @@ export class ImageGalleryItem extends Component {
     }));
   };
 
-  // handleBackdropClick = evt => {
-  //   if (evt.currentTarget === evt.target) {
-  //     this.handleToggleModal();
-  //   }
-  // };
-
   render() {
     const { isModalOpen } = this.state;
     const { image } = this.props;
