@@ -4,8 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { pixabayApi } from 'components/pixabayApi/pixabayApi';
 import { SearchBar } from 'components/Searchbar/Searchbar';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
+import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { AppStyled } from './App.styled';
 import { ImgSkeleton } from 'components/ImgSkeleton/ImgSkeleton';
@@ -23,11 +22,11 @@ export class App extends Component {
 
   componentDidUpdate(_, prevState) {
     const { searchQuerry, page } = this.state;
-
     if (prevState.searchQuerry !== searchQuerry || prevState.page !== page) {      
       pixabayApi(searchQuerry, page).then(data => {
+    
           if (data.hits.length < 12) {
-            this.setState({ isMoreBtnHide: true });
+            this.setState({isLoading: true, isMoreBtnHide: true });
           }
           if (data.total === 0) {
             this.setState({ isLoading: false });
@@ -51,7 +50,6 @@ export class App extends Component {
       searchQuerry,
       page: 1,
       images: [],
-      isLoading: true,
       isMoreBtnHide: false,
     });
   };
@@ -59,7 +57,6 @@ export class App extends Component {
   handleMoreSearch = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
-      isLoading: true,
     }));
   };
 
@@ -72,13 +69,8 @@ export class App extends Component {
             isLoading={isLoading}
             searchQuerry={searchQuerry}>          
         </SearchBar>
-        {images.length > 0 && (
-          <ImageGallery>
-            {images.map(image => (
-              <ImageGalleryItem key={image.id} image={image} />
-            ))}
-          </ImageGallery>
-        )}
+          <ImageGallery images={images} />
+          
         {isLoading && (
           <AppStyled display="flex" marginTop="20px" justifyContent="center">
             <ImgSkeleton/>

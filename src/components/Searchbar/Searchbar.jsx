@@ -7,6 +7,10 @@ import { StyledBar, StyledForm, StyledInput, Styledlabel } from './Searchbar.sty
 
 
 export class SearchBar extends Component {
+  static propTypes = {
+      isLoading: PropTypes.bool.isRequired,
+  };
+
   state = {
     searchInput: '',
   };
@@ -90,6 +94,6 @@ export class SearchBar extends Component {
 
 
 
-SearchBar.propType = {
-  isLoading: PropTypes.bool.isRequired,
-};
+// SearchBar.propType = {
+//   isLoading: PropTypes.bool.isRequired,
+// };

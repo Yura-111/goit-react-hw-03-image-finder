@@ -4,6 +4,11 @@ import { Backdrop } from './Modal.styled';
 import { AppStyled } from 'components/App.styled';
 
 export class Modal extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    onClose: PropTypes.func.isRequired
+};
+
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleEscPress);
@@ -36,8 +41,3 @@ export class Modal extends Component {
     
   }
 }
-
-
-Modal.propTypes = {
-  children: PropTypes.node.isRequired,
-};

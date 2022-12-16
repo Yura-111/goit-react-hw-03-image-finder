@@ -8,6 +8,12 @@ import {
 } from './ImageGalleryItem.styled';
 
 export class ImageGalleryItem extends Component {
+  static propTypes = {
+    tags: PropTypes.string.isRequired,
+    webformatURL: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired
+};
+
   state = {
     isModalOpen: false,
   };
@@ -20,23 +26,20 @@ export class ImageGalleryItem extends Component {
 
   render() {
     const { isModalOpen } = this.state;
-    const { image } = this.props;
+    const { webformatURL,
+      tags,
+      largeImageURL } = this.props;
     return (
       <>
-        <StyledGalleryItem onClick={this.handleToggleModal}>
-          <StyledGalleryImage src={image.webformatURL} alt={image.tags} />
+        <StyledGalleryItem onClick={this.handleToggleModal} >
+          <StyledGalleryImage src={webformatURL} alt={tags} />
         </StyledGalleryItem>
         {isModalOpen && (
           <Modal onClose={this.handleToggleModal}>
-            <ModalImage src={image.largeImageURL} alt={image.tags} />
+            <ModalImage src={largeImageURL} alt={tags} />
           </Modal>
         )}
       </>
     ) ;
   }
 }
-
-ImageGalleryItem.propTypes = {
-  image: PropTypes.object.isRequired,
-};
-
