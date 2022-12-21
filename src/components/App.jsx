@@ -57,7 +57,7 @@ export class App extends Component {
       page: 1,
       images: [],
       isMoreBtnHide: false,
-      // isLoading: !prevState.isLoading,
+      isLoading: !searchQuerry.isLoading,
     });
   };
 
