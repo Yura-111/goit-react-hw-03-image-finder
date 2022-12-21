@@ -22,19 +22,25 @@ export class App extends Component {
 
   componentDidUpdate(_, prevState) {
     const { searchQuerry, page } = this.state;
-    if (prevState.searchQuerry !== searchQuerry || prevState.page !== page) {      
+        if (prevState.searchQuerry !== searchQuerry || prevState.page !== page) {      
       pixabayApi(searchQuerry, page).then(data => {
-    
+          
           if (data.hits.length < 12) {
-            this.setState({isLoading: true, isMoreBtnHide: true });
+            this.setState({ isMoreBtnHide: true });
           }
           if (data.total === 0) {
             this.setState({ isLoading: false });
-            return toast.info('Sorry, nothing was found for your search');
+            toast.info('Sorry, nothing was found for your search');
           }
+          const filteredImages = data.hits.map((elements) => {
+            const { id, webformatURL, largeImageURL, tags } = elements;
+            const renderImages = { id, webformatURL, largeImageURL, tags };
+        return renderImages;
+        });
+        
 
           this.setState(prevState => ({
-            images: [...prevState.images, ...data.hits],
+            images: [...prevState.images, ...filteredImages],
             isLoading: false,
           }));
         })
@@ -45,20 +51,23 @@ export class App extends Component {
     }
   }
 
-  handleSubmit = searchQuerry => {
+  handleSubmit = (searchQuerry) => {
     this.setState({
       searchQuerry,
       page: 1,
       images: [],
       isMoreBtnHide: false,
+      // isLoading: !prevState.isLoading,
     });
   };
 
   handleMoreSearch = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
+      isLoading: !prevState.isLoading,
     }));
   };
+
 
   render() {
     const { isLoading, images, isMoreBtnHide, searchQuerry } = this.state;
@@ -69,10 +78,11 @@ export class App extends Component {
             isLoading={isLoading}
             searchQuerry={searchQuerry}>          
         </SearchBar>
+        {images.length > 0 && (
           <ImageGallery images={images} />
-          
+          )}
         {isLoading && (
-          <AppStyled display="flex" marginTop="20px" justifyContent="center">
+          <AppStyled>
             <ImgSkeleton/>
           </AppStyled>
         )}
