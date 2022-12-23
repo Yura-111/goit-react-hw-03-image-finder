@@ -9,21 +9,22 @@ import { StyledBar, StyledForm, StyledInput, Styledlabel } from './Searchbar.sty
 export class SearchBar extends Component {
   static propTypes = {
       isLoading: PropTypes.bool.isRequired,
+      onSubmit: PropTypes.func.isRequired,
   };
 
   state = {
     searchInput: '',
   };
 
-  handleInputChange = evt => {
+  handleInputChange = event => {
     this.setState({
-      searchInput: evt.currentTarget.value,
+      searchInput: event.currentTarget.value,
     });
   };
 
-  handleSubmit = evt => {
+  handleSubmit = event => {
     const { searchInput } = this.state;
-    evt.preventDefault();
+    event.preventDefault();
 
     if (searchInput.trim() === '') {
       toast.info('Please, enter your search term', {
@@ -69,13 +70,14 @@ export class SearchBar extends Component {
   render() {
     const { searchInput } = this.state;
     const { isLoading } = this.props;
+    const {handleSubmit, handleInputChange} = this;
 
     return (
       <StyledBar>
-        <StyledForm onSubmit={this.handleSubmit}>
+        <StyledForm onSubmit={handleSubmit}>
           <Styledlabel htmlFor="search">Search</Styledlabel>
           <StyledInput
-            onChange={this.handleInputChange}
+            onChange={handleInputChange}
             value={searchInput}
             name="search"
             autoComplete="off"
@@ -91,9 +93,3 @@ export class SearchBar extends Component {
     );
   }
 }
-
-
-
-// SearchBar.propType = {
-//   isLoading: PropTypes.bool.isRequired,
-// };

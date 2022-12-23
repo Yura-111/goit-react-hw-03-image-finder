@@ -22,21 +22,22 @@ export class App extends Component {
 
   componentDidUpdate(_, prevState) {
     const { searchQuerry, page } = this.state;
-        if (prevState.searchQuerry !== searchQuerry || prevState.page !== page) {      
-      pixabayApi(searchQuerry, page).then(data => {
-          
-          if (data.hits.length < 12) {
-            this.setState({ isMoreBtnHide: true });
-          }
-          if (data.total === 0) {
-            this.setState({ isLoading: false });
-            toast.info('Sorry, nothing was found for your search');
-          }
-          const filteredImages = data.hits.map((elements) => {
-            const { id, webformatURL, largeImageURL, tags } = elements;
-            const renderImages = { id, webformatURL, largeImageURL, tags };
-        return renderImages;
-        });
+        if (prevState.searchQuerry !== searchQuerry || prevState.page !== page) {  
+          this.loderControlTogle();
+          pixabayApi(searchQuerry, page).then(data => {
+            if (data.hits.length < 12) {
+              this.setState({ isMoreBtnHide: true });
+            }
+            if (data.total === 0) {
+              this.setState({ isLoading: false });
+              toast.info('Sorry, nothing was found for your search');
+            }
+            const filteredImages = data.hits.map((elements) => {
+              const { id, webformatURL, largeImageURL, tags } = elements;
+              const renderImages = { id, webformatURL, largeImageURL, tags };
+              
+              return renderImages;
+            });
         
 
           this.setState(prevState => ({
@@ -51,20 +52,25 @@ export class App extends Component {
     }
   }
 
+
+  loderControlTogle = () => {
+    this.setState(prevState => ({
+      isLoading: !prevState.isLoading,
+    }));
+  };
+
   handleSubmit = (searchQuerry) => {
     this.setState({
       searchQuerry,
       page: 1,
       images: [],
       isMoreBtnHide: false,
-      isLoading: !searchQuerry.isLoading,
     });
   };
 
   handleMoreSearch = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
-      isLoading: !prevState.isLoading,
     }));
   };
 
