@@ -23,7 +23,7 @@ export class App extends Component {
   componentDidUpdate(_, prevState) {
     const { searchQuerry, page } = this.state;
         if (prevState.searchQuerry !== searchQuerry || prevState.page !== page) {  
-          this.loderControlTogle();
+          this.loderControl();
           pixabayApi(searchQuerry, page).then(data => {
             if (data.hits.length < 12) {
               this.setState({ isMoreBtnHide: true });
@@ -48,12 +48,15 @@ export class App extends Component {
         .catch(error => {
           console.log(error);
           this.setState({ error });
+        })        
+        .finally(() => {
+          this.loderControl()              
         });
     }
   }
 
 
-  loderControlTogle = () => {
+  loderControl = () => {
     this.setState(prevState => ({
       isLoading: !prevState.isLoading,
     }));
